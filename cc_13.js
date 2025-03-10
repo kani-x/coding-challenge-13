@@ -132,3 +132,82 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("employeeContainer").addEventListener("dblclick", highlightAllCards);
 });
 
+// Task 5: Inline Editing of Employee Details
+
+// Function to create and add a new employee card
+function createEmployeeCard(name, position) {
+    const employeeContainer = document.getElementById("employeeContainer");
+  
+    const card = document.createElement("div");
+    card.classList.add("employeeCard");
+  
+    // Employee Name
+    const employeeName = document.createElement("h3");
+    employeeName.classList.add("employeeName");
+    employeeName.textContent = name;
+  
+    // Employee Position
+    const employeePosition = document.createElement("p");
+    employeePosition.classList.add("employeePosition");
+    employeePosition.textContent = position;
+  
+    // Edit Button
+    const editButton = document.createElement("button");
+    editButton.textContent = "Edit";
+    editButton.classList.add("editButton");
+  
+    // Save Button
+    const saveButton = document.createElement("button");
+    saveButton.textContent = "Save";
+    saveButton.classList.add("saveButton");
+    saveButton.style.display = "none"; // Initially hidden
+  
+    // Add all elements to the card
+    card.appendChild(employeeName);
+    card.appendChild(employeePosition);
+    card.appendChild(editButton);
+    card.appendChild(saveButton);
+  
+    // Add the card to the employee container
+    employeeContainer.appendChild(card);
+  
+    // Edit button functionality
+    editButton.addEventListener("click", function() {
+      // Switch to input fields for inline editing
+      const nameInput = document.createElement("input");
+      nameInput.type = "text";
+      nameInput.value = employeeName.textContent;
+  
+      const positionInput = document.createElement("input");
+      positionInput.type = "text";
+      positionInput.value = employeePosition.textContent;
+  
+      // Replace text content with input fields
+      employeeName.replaceWith(nameInput);
+      employeePosition.replaceWith(positionInput);
+  
+      // Hide the Edit button, show the Save button
+      editButton.style.display = "none";
+      saveButton.style.display = "inline-block";
+  
+      // Save button functionality
+      saveButton.addEventListener("click", function() {
+        // Update the card with new values
+        employeeName.textContent = nameInput.value;
+        employeePosition.textContent = positionInput.value;
+  
+        // Revert inputs back to text
+        nameInput.replaceWith(employeeName);
+        positionInput.replaceWith(employeePosition);
+  
+        // Hide the Save button, show the Edit button again
+        saveButton.style.display = "none";
+        editButton.style.display = "inline-block";
+      });
+    });
+  }
+  
+  // Example Usage: Adding a new employee card dynamically
+  createEmployeeCard("John Doe", "Software Engineer");
+  createEmployeeCard("Jane Smith", "Product Manager");
+  
