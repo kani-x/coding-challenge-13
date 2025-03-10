@@ -79,3 +79,56 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("employeeContainer").addEventListener("dblclick", highlightAllCards);
 });
 
+// Task 4 - Employee Card Removal with Event Bubbling
+
+document.addEventListener("DOMContentLoaded", () => {
+    function addEmployeeCard(name, position) {
+        const card = document.createElement("div");
+        card.classList.add("employee-card");
+
+        const nameHeading = document.createElement("h3");
+        nameHeading.textContent = name;
+
+        const positionPara = document.createElement("p");
+        positionPara.textContent = position;
+
+        const removeButton = document.createElement("button");
+        removeButton.textContent = "Remove";
+
+        // Remove button event listener (stopPropagation used)
+        removeButton.addEventListener("click", (event) => {
+            event.stopPropagation(); // Prevents bubbling
+            card.remove();
+        });
+
+        card.appendChild(nameHeading);
+        card.appendChild(positionPara);
+        card.appendChild(removeButton);
+
+        document.getElementById("employeeContainer").appendChild(card);
+    }
+
+    function highlightAllCards() {
+        const cards = document.querySelectorAll(".employee-card");
+        Array.from(cards).forEach(card => {
+            card.style.backgroundColor = "#f0f8ff"; // Light blue highlight
+            card.style.border = "2px solid #007bff"; // Blue border
+        });
+    }
+
+    document.getElementById("addEmployee").addEventListener("click", () => {
+        const name = prompt("Enter employee name:");
+        const position = prompt("Enter employee position:");
+        if (name && position) {
+            addEmployeeCard(name, position);
+        }
+    });
+
+    // Parent container event listener (demonstrating bubbling)
+    document.getElementById("employeeContainer").addEventListener("click", () => {
+        console.log("Employee card clicked!");
+    });
+
+    document.getElementById("employeeContainer").addEventListener("dblclick", highlightAllCards);
+});
+
